@@ -22,7 +22,7 @@ const NoteActions = styled.div`
   margin-top: 0.5rem;
 `;
 
-// Define the props interface for the Note component
+
 interface NoteProps extends NoteType {
   updateNote: (note: NoteType) => void;
 }
