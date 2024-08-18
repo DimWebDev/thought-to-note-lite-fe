@@ -1,7 +1,9 @@
 import React from 'react';
 import { Card, CardContent, Typography, Button } from '@mui/material';
 import styled from '@emotion/styled';
+import { NoteType } from '../interfaces/types'; // Adjust the path as needed
 
+// Styled components for styling the Note component
 const StyledCard = styled(Card)`
   background-color: #ffffff;
   border-radius: 12px;
@@ -20,22 +22,18 @@ const NoteActions = styled.div`
   margin-top: 0.5rem;
 `;
 
-/**
- * Represents a Note component.
- *
- * @component
- * @param {number} id - The unique identifier of the note.
- * @param {string} title - The title of the note.
- * @param {string} content - The content of the note.
- * @param {function} updateNote - A function to update the note.
- * @returns {JSX.Element} The rendered Note component.
- */
-const Note: React.FC<{ id: number, title: string, content: string, updateNote: (note: any) => void }> = ({ id, title, content, updateNote }) => {
+// Define the props interface for the Note component
+interface NoteProps extends NoteType {
+  updateNote: (note: NoteType) => void;
+}
+
+// The Note component
+const Note: React.FC<NoteProps> = ({ id, title, content, updateNote }) => {
   const handleEdit = () => {
     const updatedTitle = prompt('Edit Title', title);
     const updatedContent = prompt('Edit Content', content);
     if (updatedTitle !== null && updatedContent !== null) {
-      updateNote({ id, title: updatedTitle, content: updatedContent });
+      updateNote({ id, title: updatedTitle, content: updatedContent, createdAt: '', updatedAt: '' });
     }
   };
 
