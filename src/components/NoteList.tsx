@@ -3,16 +3,31 @@ import Note from './Note';
 import { Grid } from '@mui/material';
 import styled from '@emotion/styled';
 
+// Define the NoteType interface to match the App component
+interface NoteType {
+  id: number;
+  title: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// Define the props for the NoteList component
+interface NoteListProps {
+  notes: NoteType[];
+  updateNote: (updatedNote: NoteType) => void;
+}
+
 const NoteListContainer = styled.div`
   margin-top: 2rem;
 `;
 
-const NoteList: React.FC<{ notes: any[], updateNote: (note: any) => void }> = ({ notes, updateNote }) => {
+const NoteList: React.FC<NoteListProps> = ({ notes, updateNote }) => {
   return (
     <NoteListContainer>
       <Grid container spacing={2}>
         {notes.length > 0 ? (
-          notes.map(note => (
+          notes.map((note) => (
             <Grid item xs={12} sm={6} key={note.id}>
               <Note {...note} updateNote={updateNote} />
             </Grid>

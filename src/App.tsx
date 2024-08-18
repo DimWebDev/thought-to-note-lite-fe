@@ -1,8 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import NoteList from './components/NoteList';
 import NoteForm from './components/NoteForm';
 import { Container, Typography } from '@mui/material';
 import styled from '@emotion/styled';
+
+// Define the NoteType interface for type safety
+interface NoteType {
+  id: number;
+  title: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 const AppContainer = styled(Container)`
   max-width: 800px;
@@ -14,14 +23,42 @@ const AppContainer = styled(Container)`
 `;
 
 const App: React.FC = () => {
-  const [notes, setNotes] = useState<any[]>([]);
+  const [notes, setNotes] = useState<NoteType[]>([]);
 
-  const addNote = (newNote: any) => {
+  useEffect(() => {
+    const fetchNotes = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/api/notes', {
+          method: 'GET',
+          headers: {
+            'Authorization': 'Basic ' + btoa('yourUsername:yourPassword'),
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Fetched Notes:', data); // Log the fetched data
+          setNotes(data);  // Update state with the fetched notes
+        } else {
+          console.error('Failed to fetch notes:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error fetching notes:', error);
+      }
+    };
+
+    fetchNotes();
+  }, []);
+
+  const addNote = (newNote: NoteType) => {
     setNotes([...notes, newNote]);
   };
 
-  const updateNote = (updatedNote: any) => {
-    setNotes(notes.map(note => note.id === updatedNote.id ? updatedNote : note));
+  const updateNote = (updatedNote: NoteType) => {
+    setNotes(
+      notes.map((note) => (note.id === updatedNote.id ? updatedNote : note))
+    );
   };
 
   return (
