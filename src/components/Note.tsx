@@ -20,6 +20,16 @@ const NoteActions = styled.div`
   margin-top: 0.5rem;
 `;
 
+/**
+ * Represents a Note component.
+ *
+ * @component
+ * @param {number} id - The unique identifier of the note.
+ * @param {string} title - The title of the note.
+ * @param {string} content - The content of the note.
+ * @param {function} updateNote - A function to update the note.
+ * @returns {JSX.Element} The rendered Note component.
+ */
 const Note: React.FC<{ id: number, title: string, content: string, updateNote: (note: any) => void }> = ({ id, title, content, updateNote }) => {
   const handleEdit = () => {
     const updatedTitle = prompt('Edit Title', title);

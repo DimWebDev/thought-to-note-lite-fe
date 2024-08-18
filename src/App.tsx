@@ -3,15 +3,7 @@ import NoteList from './components/NoteList';
 import NoteForm from './components/NoteForm';
 import { Container, Typography } from '@mui/material';
 import styled from '@emotion/styled';
-
-// Define the NoteType interface for type safety
-interface NoteType {
-  id: number;
-  title: string;
-  content: string;
-  createdAt: string;
-  updatedAt: string;
-}
+import { NoteType } from './interfaces/types'; 
 
 const AppContainer = styled(Container)`
   max-width: 800px;

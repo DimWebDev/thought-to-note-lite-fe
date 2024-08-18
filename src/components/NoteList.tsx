@@ -2,17 +2,9 @@ import React from 'react';
 import Note from './Note';
 import { Grid } from '@mui/material';
 import styled from '@emotion/styled';
+import { NoteType } from '../interfaces/types'; 
 
-// Define the NoteType interface to match the App component
-interface NoteType {
-  id: number;
-  title: string;
-  content: string;
-  createdAt: string;
-  updatedAt: string;
-}
 
-// Define the props for the NoteList component
 interface NoteListProps {
   notes: NoteType[];
   updateNote: (updatedNote: NoteType) => void;
