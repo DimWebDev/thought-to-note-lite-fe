@@ -53,13 +53,17 @@ const App: React.FC = () => {
     );
   };
 
+  const deleteNote = (id: number) => {
+    setNotes(notes.filter((note) => note.id !== id));
+  };
+
   return (
     <AppContainer>
       <Typography variant="h4" align="center" gutterBottom>
         Thought to Note Lite
       </Typography>
       <NoteForm addNote={addNote} />
-      <NoteList notes={notes} updateNote={updateNote} />
+      <NoteList notes={notes} updateNote={updateNote} deleteNote={deleteNote} />
     </AppContainer>
   );
 };

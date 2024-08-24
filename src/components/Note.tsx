@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, Typography, Button } from '@mui/material';
 import styled from '@emotion/styled';
-import { NoteType } from '../interfaces/types'; 
+import { NoteType } from '../interfaces/types';
 
 const StyledCard = styled(Card)`
   background-color: #ffffff;
@@ -17,15 +17,16 @@ const StyledCard = styled(Card)`
 
 const NoteActions = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-top: 0.5rem;
 `;
 
 interface NoteProps extends NoteType {
   updateNote: (note: NoteType) => void;
+  deleteNote: (id: number) => void;
 }
 
-const Note: React.FC<NoteProps> = ({ id, title, content, updateNote }) => {
+const Note: React.FC<NoteProps> = ({ id, title, content, updateNote, deleteNote }) => {
   const handleEdit = async () => {
     const updatedTitle = prompt('Edit Title', title);
     const updatedContent = prompt('Edit Content', content);
@@ -59,6 +60,27 @@ const Note: React.FC<NoteProps> = ({ id, title, content, updateNote }) => {
     }
   };
 
+  const handleDelete = async () => {
+    if (window.confirm(`Are you sure you want to delete the note titled "${title}"?`)) {
+      try {
+        const response = await fetch(`http://localhost:8080/api/notes/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': 'Basic ' + btoa('yourUsername:yourPassword'),
+          },
+        });
+
+        if (response.ok) {
+          deleteNote(id);  // Remove the note from the state
+        } else {
+          console.error('Failed to delete note:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error deleting note:', error);
+      }
+    }
+  };
+
   return (
     <StyledCard>
       <CardContent>
@@ -71,6 +93,9 @@ const Note: React.FC<NoteProps> = ({ id, title, content, updateNote }) => {
         <NoteActions>
           <Button size="small" color="primary" onClick={handleEdit}>
             Edit
+          </Button>
+          <Button size="small" color="secondary" onClick={handleDelete}>
+            Delete
           </Button>
         </NoteActions>
       </CardContent>
