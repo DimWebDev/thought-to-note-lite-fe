@@ -1,9 +1,8 @@
 import React from 'react';
 import { Card, CardContent, Typography, Button } from '@mui/material';
 import styled from '@emotion/styled';
-import { NoteType } from '../interfaces/types'; // Adjust the path as needed
+import { NoteType } from '../interfaces/types'; 
 
-// Styled components for styling the Note component
 const StyledCard = styled(Card)`
   background-color: #ffffff;
   border-radius: 12px;
@@ -22,18 +21,41 @@ const NoteActions = styled.div`
   margin-top: 0.5rem;
 `;
 
-
 interface NoteProps extends NoteType {
   updateNote: (note: NoteType) => void;
 }
 
-// The Note component
 const Note: React.FC<NoteProps> = ({ id, title, content, updateNote }) => {
-  const handleEdit = () => {
+  const handleEdit = async () => {
     const updatedTitle = prompt('Edit Title', title);
     const updatedContent = prompt('Edit Content', content);
+
     if (updatedTitle !== null && updatedContent !== null) {
-      updateNote({ id, title: updatedTitle, content: updatedContent, createdAt: '', updatedAt: '' });
+      const updatedNote = {
+        id,
+        title: updatedTitle,
+        content: updatedContent,
+      };
+
+      try {
+        const response = await fetch(`http://localhost:8080/api/notes/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': 'Basic ' + btoa('yourUsername:yourPassword'),
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updatedNote),
+        });
+
+        if (response.ok) {
+          const savedNote: NoteType = await response.json();
+          updateNote(savedNote);  // Update the state with the returned note
+        } else {
+          console.error('Failed to update note:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error updating note:', error);
+      }
     }
   };
 
