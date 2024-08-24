@@ -58,3 +58,6 @@ coverage/
 
 # Parcel cache
 .cache/
+
+#notes
+documentation.md
