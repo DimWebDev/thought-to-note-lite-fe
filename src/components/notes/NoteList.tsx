@@ -1,34 +1,29 @@
 import React from 'react';
 import Note from './Note';
 import { Grid } from '@mui/material';
-import styled from '@emotion/styled';
-import { NoteType } from '../interfaces/types'; 
+import { NoteType } from '../../interfaces/types'; 
 
 interface NoteListProps {
   notes: NoteType[];
-  updateNote: (updatedNote: NoteType) => void;
+  editNote: (id: number, note: NoteType) => void;
   deleteNote: (id: number) => void;
 }
 
-const NoteListContainer = styled.div`
-  margin-top: 2rem;
-`;
-
-const NoteList: React.FC<NoteListProps> = ({ notes, updateNote, deleteNote }) => {
+const NoteList: React.FC<NoteListProps> = ({ notes, editNote, deleteNote }) => {
   return (
-    <NoteListContainer>
+    <div style={{ marginTop: '2rem' }}>
       <Grid container spacing={2}>
         {notes.length > 0 ? (
-          notes.map((note) => (
+          notes.map(note => (
             <Grid item xs={12} sm={6} key={note.id}>
-              <Note {...note} updateNote={updateNote} deleteNote={deleteNote} />
+              <Note {...note} editNote={editNote} deleteNote={deleteNote} />
             </Grid>
           ))
         ) : (
           <p>No notes available.</p>
         )}
       </Grid>
-    </NoteListContainer>
+    </div>
   );
 };
 
