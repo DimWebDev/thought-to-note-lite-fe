@@ -38,7 +38,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18.x'  # Adjust to your project's Node.js version
+          node-version: '18.x'  # same version as in local development
           cache: 'npm'
 
       # 3. Cache node_modules to speed up installations
