@@ -34,14 +34,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2. Set up Node.js environment (Specify the version you are using, e.g., 18.x)
+      # 2. Set up Node.js environment (Updated to Node.js 20)
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18.x'  # Adjust to your project's Node.js version
+          node-version: '20'  # Update to Node.js 20
           cache: 'npm'
 
-      # 3. Cache node_modules to speed up installations
+      # 3. Cache node modules to speed up installations
       - name: Cache node modules
         uses: actions/cache@v3
         with:
@@ -66,18 +66,18 @@ jobs:
       - name: Build Application
         run: npm run build
 
-      # 7. (Optional) Upload Test Coverage Report
+      # 7. Upload Test Coverage Report (Updated to v4)
       - name: Upload Coverage Report
         if: success() && always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4  
         with:
           name: coverage-report
           path: coverage/
 
-      # 8. (Optional) Upload Build Artifacts
+      # 8. Upload Build Artifacts (Updated to v4)
       - name: Upload Build Artifacts
         if: success()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4  
         with:
           name: build
           path: build/
