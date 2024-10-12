@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import NoteList from './components/NoteList';
-import NoteForm from './components/NoteForm';
+import React, { useState } from 'react';
+import NoteList from './components/notes/NoteList';
+import NoteForm from './components/notes/NoteForm';
 import { Container, Typography, TextField, Button } from '@mui/material';
 import styled from '@emotion/styled';
-import { NoteType } from './interfaces/types';
+import useNotes from './hooks/useNotes';
 
 const AppContainer = styled(Container)`
   max-width: 800px;
@@ -21,83 +21,19 @@ const SearchContainer = styled.div`
 `;
 
 const App: React.FC = () => {
-  const [notes, setNotes] = useState<NoteType[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
-
-  useEffect(() => {
-    const fetchNotes = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/api/notes', {
-          method: 'GET',
-          headers: {
-            'Authorization': 'Basic ' + btoa('yourUsername:yourPassword'),
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          setNotes(data);
-        } else {
-          console.error('Failed to fetch notes:', response.statusText);
-        }
-      } catch (error) {
-        console.error('Error fetching notes:', error);
-      }
-    };
-
-    fetchNotes();
-  }, []);
-
-  const addNote = (newNote: NoteType) => {
-    setNotes([...notes, newNote]);
-  };
-
-  const updateNote = (updatedNote: NoteType) => {
-    setNotes(notes.map((note) => (note.id === updatedNote.id ? updatedNote : note)));
-  };
-
-  const deleteNote = (id: number) => {
-    setNotes(notes.filter((note) => note.id !== id));
-  };
+  const { notes, loading, error, getNotes, addNote, editNote, removeNote, searchNotes } = useNotes();
 
   const handleSearch = async () => {
     if (searchQuery.trim() === '') {
-      // If the search query is empty, fetch all notes
-      const response = await fetch('http://localhost:8080/api/notes', {
-        method: 'GET',
-        headers: {
-          'Authorization': 'Basic ' + btoa('yourUsername:yourPassword'),
-          'Content-Type': 'application/json',
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setNotes(data);
-      } else {
-        console.error('Failed to fetch notes:', response.statusText);
-      }
+      await getNotes(); // Call the getNotes function when searchQuery is empty
     } else {
-      try {
-        const response = await fetch(`http://localhost:8080/api/notes/search?title=${encodeURIComponent(searchQuery)}`, {
-          method: 'GET',
-          headers: {
-            'Authorization': 'Basic ' + btoa('yourUsername:yourPassword'),
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          setNotes(data);
-        } else {
-          console.error('Failed to search notes:', response.statusText);
-        }
-      } catch (error) {
-        console.error('Error searching notes:', error);
-      }
+      await searchNotes(searchQuery); // Otherwise, perform the search
     }
   };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <AppContainer>
@@ -120,7 +56,7 @@ const App: React.FC = () => {
       </SearchContainer>
 
       <NoteForm addNote={addNote} />
-      <NoteList notes={notes} updateNote={updateNote} deleteNote={deleteNote} />
+      <NoteList notes={notes} editNote={editNote} deleteNote={removeNote} />
     </AppContainer>
   );
 };

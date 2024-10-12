@@ -58,3 +58,7 @@ coverage/
 
 # Parcel cache
 .cache/
+
+#notes
+documentation.md
+project_docs.txt
