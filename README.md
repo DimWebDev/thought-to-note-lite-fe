@@ -190,7 +190,7 @@ This approach secures API calls and is handled centrally in `api.ts`.
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/thought-to-note-lite.git
+   git clone <repository-url>
    ```
 2. Install dependencies:
    ```bash
