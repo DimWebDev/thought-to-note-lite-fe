@@ -6,7 +6,7 @@
 
 This application works by communicating with a backend Java API to trigger these CRUD operations, ensuring all data management happens seamlessly between the frontend and the server. For more information on the specific endpoints, refer to the [***Backend Micro-service***](https://github.com/DimWebDev/thought-to-note-lite-be/tree/develop).
 
->[INFO]
+>[!INFO]
 > For a complete understanding of the Thought-to-Note Lite application, which includes both the frontend and backend services, please see the [Central Documentation](https://github.com/DimWebDev/Thought-to-Note-Lite---Central-Documentation). The central guide provides in-depth details about the system architecture, integration, setup, and testing strategies. To explore the backend API that powers this frontend client, refer to the [Backend Repository](https://github.com/DimWebDev/thought-to-note-lite-be/tree/develop). 
 
 
