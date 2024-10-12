@@ -62,3 +62,6 @@ coverage/
 #notes
 documentation.md
 project_docs.txt
+
+# jest file
+__snapshots__/
