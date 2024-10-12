@@ -1,22 +1,47 @@
-# Thought-to-Note Lite Frontend Documentation
+# Thought-to-Note Lite Frontend 
 
 ## Overview
 
-**Thought-to-Note Lite** is a React-based web application for managing notes. It interacts with a backend Java API using a RESTful approach to perform CRUD (Create, Read, Update, Delete) operations. The frontend is built with TypeScript, React, and Material-UI, emphasizing a clean and responsive user interface.
+**Thought-to-Note Lite** is a React-based web application for managing notes. It interacts with a backend Java API using a RESTful approach to perform CRUD (Create, Read, Update, Delete) operations. The frontend is built with TypeScript, React, and Material-UI, emphasizing a clean and responsive user interface. 
+
+This application works by communicating with a backend Java API to trigger these CRUD operations, ensuring all data management happens seamlessly between the frontend and the server. For more information on the specific endpoints, refer to the [***Backend Micro-service***](https://github.com/DimWebDev/thought-to-note-lite-be/tree/develop).
 
 ## Table of Contents
 
-1. [Core Technologies](#core-technologies)
-2. [Project Structure](#project-structure)
-3. [Key Components](#key-components)
-4. [State Management](#state-management)
-5. [UI Components](#ui-components)
-6. [Styling and Theming](#styling-and-theming)
-7. [Error Handling and User Feedback](#error-handling-and-user-feedback)
-8. [Authentication](#authentication)
-9. [Running the Project](#running-the-project)
-10. [Testing](#testing)
-11. [Running Tests](#running-tests)
+1. [Quickstart Guide](#quickstart-guide)
+2. [Core Technologies](#core-technologies)
+3. [Project Structure](#project-structure)
+4. [Key Components](#key-components)
+5. [State Management](#state-management)
+6. [UI Components](#ui-components)
+7. [Styling and Theming](#styling-and-theming)
+8. [Error Handling and User Feedback](#error-handling-and-user-feedback)
+9. [Authentication](#authentication)
+10. [Running the Project](#running-the-project)
+11. [Testing](#testing)
+12. [Running Tests](#running-tests)
+13. [API Documentation](#api-documentation)
+
+## Quickstart Guide
+
+To quickly get started with Thought-to-Note Lite:
+
+1. **Clone the Repository**:
+   ```bash
+   git clone ...
+   cd thought-to-note-lite
+   ```
+2. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
+3. **Run the Application**:
+   ```bash
+   npm start
+   ```
+4. **Access the App**:
+   - Open your browser and navigate to `http://localhost:3000`.
+
 
 ## Core Technologies
 
@@ -25,8 +50,8 @@
 - **Material-UI**: For pre-styled UI components.
 - **Emotion**: For styling using CSS-in-JS.
 
-> [!IMPORTANT] 
->To work with the Thought-to-Note Lite repository, ensure Node.js version 18.12.1 is installed, as this version was used during local development and guarantees compatibility with the project’s dependencies. The correct Node.js version can be indicated in `package.json` under `engines`. The necessary React versions (`react` and `react-dom`, both at `^18.3.1`) are already specified and will be installed automatically when running `npm install`. These steps ensure smooth setup and compatibility for anyone cloning and running the project.
+> [!IMPORTANT]
+> To work with the Thought-to-Note Lite repository, ensure Node.js version 18.12.1 is installed, as this version was used during local development and guarantees compatibility with the project’s dependencies. The necessary React versions (`react` and `react-dom`, both at `^18.3.1`) are already specified and will be installed automatically when running `npm install`. These steps ensure smooth setup and compatibility for anyone cloning and running the project.
 
 ## Project Structure
 
@@ -206,27 +231,21 @@ The testing strategy for **Thought-to-Note Lite** focuses on:
   npm test -- --watchAll=false
   ```
 - To run all tests and view code coverage in the terminal, use the following command:
-
   ```bash
   npm test -- --coverage --watchAll=false
   ```
-
   **Explanation:**
-
   - `--coverage`: Generates a coverage report.
   - `--watchAll=false`: Runs all tests (not just changed files) and disables watch mode.
-
-  **Output:**
-  You'll see coverage details like:
-
+    **Output:**
+    You'll see coverage details like:
   ```bash
   -----------------|---------|----------|---------|---------|-------------------
-  File             | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+  File             | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
   -----------------|---------|----------|---------|---------|-------------------
   All files        |    85.5 |     70.6 |    80.0 |    85.0 |                   
   -----------------|---------|----------|---------|---------|-------------------
   ```
-
   An HTML report will also be generated in the `coverage/` folder for detailed analysis.
 
 ### Example: Mocking API Calls
@@ -238,8 +257,44 @@ jest.mock('../api/api');
 (api.fetchNotes as jest.Mock).mockResolvedValue(mockNotes);
 ```
 
-## Conclusion
+## API Documentation
+
+The Thought-to-Note Lite frontend interacts with a backend Java API to perform CRUD operations on notes. Below are the endpoints used by the application:
+
+### 1. Fetch Notes
+- **Endpoint**: `GET /api/notes`
+- **Description**: Retrieves all notes from the backend.
+- **Headers**: 
+  - `Authorization`: Basic authentication using username and password.
+  - `Content-Type`: `application/json`
+- **Response**: Returns an array of `NoteType` objects.
+
+### 2. Create Note
+- **Endpoint**: `POST /api/notes`
+- **Description**: Creates a new note in the backend.
+- **Headers**:
+  - `Authorization`: Basic authentication using username and password.
+  - `Content-Type`: `application/json`
+- **Body**: JSON object of type `NewNoteType` containing `title` and `content`.
+- **Response**: Returns the created note of type `NoteType`.
+
+### 3. Update Note
+- **Endpoint**: `PUT /api/notes/{id}`
+- **Description**: Updates an existing note in the backend.
+- **Headers**:
+  - `Authorization`: Basic authentication using username and password.
+  - `Content-Type`: `application/json`
+- **Body**: JSON object of type `NoteType` containing updated `title` and `content`.
+- **Response**: Returns the updated note of type `NoteType`.
+
+### 4. Delete Note
+- **Endpoint**: `DELETE /api/notes/{id}`
+- **Description**: Deletes a note from the backend.
+- **Headers**:
+  - `Authorization`: Basic authentication using username and password.
+- **Response**: No content is returned upon successful deletion.
+
+---
 
 The **Thought-to-Note Lite Frontend** is a well-structured, maintainable application that leverages modern web development practices, including custom hooks, centralized API interactions, unit testing, and consistent styling. With a full backend integration, it provides a seamless experience for managing notes.
 
-This documentation offers an in-depth understanding of the structure, components, and testing strategies used in the project, making it easy for developers to contribute effectively.
